@@ -1,5 +1,8 @@
 ---
 import { CATEGORIES, CATEGORY_LABELS } from '../content.config';
+
+const pathname = Astro.url.pathname;
+const isActive = (cat: string) => pathname === `/${cat}` || pathname === `/${cat}/`;
 ---
 <header class="border-b-4 border-ink">
   {/* Top utility bar — civic / nyc.gov style */}
@@ -28,17 +31,29 @@ import { CATEGORIES, CATEGORY_LABELS } from '../content.config';
     </div>
   </div>
 
-  {/* Category nav — like a department directory */}
-  <nav class="bg-paper border-b-2 border-ink">
-    <div class="max-w-6xl mx-auto px-4">
-      <ul class="flex flex-wrap gap-x-6 gap-y-2 py-3 text-sm font-mono uppercase tracking-wider">
-        {CATEGORIES.map((cat) => (
-          <li>
-            <a href={`/${cat}/`} class="hover:text-g-lime-dark hover:underline underline-offset-4 decoration-2">
-              {CATEGORY_LABELS[cat]}
-            </a>
-          </li>
-        ))}
+  {/* Category nav — service-indicator chips */}
+  <nav class="bg-paper border-b-2 border-ink" aria-label="Categories">
+    <div class="max-w-6xl mx-auto px-4 py-3">
+      <ul class="flex flex-wrap gap-2 font-mono uppercase tracking-wider text-xs">
+        {CATEGORIES.map((cat) => {
+          const active = isActive(cat);
+          return (
+            <li>
+              <a
+                href={`/${cat}/`}
+                aria-current={active ? 'page' : undefined}
+                class:list={[
+                  'inline-block border-2 border-ink px-3 py-1.5 transition-colors',
+                  active
+                    ? 'bg-g-lime text-ink font-bold'
+                    : 'bg-paper text-ink hover:bg-g-lime',
+                ]}
+              >
+                {CATEGORY_LABELS[cat]}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </div>
   </nav>
