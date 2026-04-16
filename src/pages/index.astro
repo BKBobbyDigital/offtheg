@@ -12,12 +12,12 @@ const total = spots.length;
 <Base title="Off the G — Greenpoint Field Guide">
   {/* Hero — civic notice board energy */}
   <section class="border-b-2 border-ink">
-    <div class="max-w-6xl mx-auto px-4 py-12 md:py-16 grid gap-8 md:grid-cols-[2fr_1fr] items-end">
+    <div class="max-w-6xl mx-auto px-4 py-12 md:py-16 grid gap-10 md:grid-cols-[1.6fr_1fr] items-end">
       <div>
         <p class="font-mono uppercase tracking-widest text-xs text-muted mb-3">
           Notice to Residents · Vol. 01
         </p>
-        <h1 class="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight leading-[1.05]">
           The spots locals actually go to.
         </h1>
         <p class="mt-5 text-lg max-w-2xl text-ink/80">
@@ -26,20 +26,20 @@ const total = spots.length;
           neighborhood institutions that make this place what it is — written by people who actually live here.
         </p>
       </div>
-      <aside class="border-2 border-ink p-4 font-mono text-xs">
-        <p class="uppercase tracking-widest text-[10px] text-muted mb-2">Field Report</p>
-        <dl class="space-y-1">
-          <div class="flex justify-between border-b border-ink/20 py-1">
-            <dt>Total entries</dt><dd class="font-bold">{total}</dd>
+      <aside class="border-2 border-ink font-mono">
+        <p class="uppercase tracking-widest text-[10px] text-paper bg-ink px-3 py-1.5">Field Report</p>
+        <dl class="px-3 py-2 text-sm">
+          <div class="flex justify-between items-baseline border-b border-ink/20 py-1.5">
+            <dt class="text-muted text-xs">Total entries</dt><dd class="font-bold text-base">{total}</dd>
           </div>
-          <div class="flex justify-between border-b border-ink/20 py-1">
-            <dt>Categories</dt><dd class="font-bold">{CATEGORIES.length}</dd>
+          <div class="flex justify-between items-baseline border-b border-ink/20 py-1.5">
+            <dt class="text-muted text-xs">Categories</dt><dd class="font-bold text-base">{CATEGORIES.length}</dd>
           </div>
-          <div class="flex justify-between border-b border-ink/20 py-1">
-            <dt>Last updated</dt><dd class="font-bold">Apr 2026</dd>
+          <div class="flex justify-between items-baseline border-b border-ink/20 py-1.5">
+            <dt class="text-muted text-xs">Last updated</dt><dd class="font-bold text-base">Apr 2026</dd>
           </div>
-          <div class="flex justify-between py-1">
-            <dt>Compiled by</dt><dd class="font-bold">Locals</dd>
+          <div class="flex justify-between items-baseline py-1.5">
+            <dt class="text-muted text-xs">Compiled by</dt><dd class="font-bold text-base">Locals</dd>
           </div>
         </dl>
       </aside>
@@ -56,12 +56,12 @@ const total = spots.length;
       {CATEGORIES.map((cat) => (
         <li class="bg-paper">
           <a href={`/${cat}/`} class="block p-5 hover:bg-g-lime transition-colors group h-full">
-            <p class="font-mono uppercase tracking-widest text-[10px] text-muted group-hover:text-ink mb-2">
+            <p class="font-mono uppercase tracking-widest text-xs text-muted group-hover:text-ink group-hover:font-bold mb-2 transition-all">
               §{(CATEGORIES.indexOf(cat) + 1).toString().padStart(2, '0')}
             </p>
             <p class="font-bold text-lg leading-tight">{CATEGORY_LABELS[cat]}</p>
             <p class="font-mono text-xs text-muted group-hover:text-ink mt-3">
-              {countByCategory[cat]} {countByCategory[cat] === 1 ? 'entry' : 'entries'} →
+              {countByCategory[cat]} {countByCategory[cat] === 1 ? 'entry' : 'entries'} <span class="inline-block transition-transform group-hover:translate-x-1">→</span>
             </p>
           </a>
         </li>

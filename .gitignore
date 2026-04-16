@@ -24,6 +24,7 @@ pnpm-debug.log*
 # editor
 .vscode/
 .idea/
+.claude/
 
 # netlify
 .netlify/
