@@ -1,0 +1,45 @@
+---
+import { CATEGORIES, CATEGORY_LABELS } from '../content.config';
+---
+<header class="border-b-4 border-ink">
+  {/* Top utility bar — civic / nyc.gov style */}
+  <div class="bg-ink text-paper text-[11px] uppercase tracking-widest">
+    <div class="max-w-6xl mx-auto px-4 py-1.5 flex items-center justify-between font-mono">
+      <span>An unofficial field guide · Greenpoint, Brooklyn</span>
+      <span class="hidden sm:inline">Est. 2026 · Maintained by locals</span>
+    </div>
+  </div>
+
+  {/* Wordmark band */}
+  <div class="bg-g-lime border-b-4 border-ink">
+    <div class="max-w-6xl mx-auto px-4 py-6 flex items-end justify-between gap-6 flex-wrap">
+      <a href="/" class="flex items-center gap-4 group">
+        {/* G train bullet */}
+        <span class="inline-flex items-center justify-center size-14 rounded-full! bg-ink text-g-lime font-bold text-3xl leading-none"
+              style="border-radius:9999px !important">G</span>
+        <span class="flex flex-col leading-none">
+          <span class="text-ink font-bold text-4xl sm:text-5xl tracking-tight">Off the G</span>
+          <span class="text-ink/80 font-mono text-xs uppercase tracking-widest mt-2">Greenpoint Field Guide</span>
+        </span>
+      </a>
+      <p class="text-ink/90 text-sm max-w-xs hidden md:block">
+        The spots locals actually go to. No algorithm, no sponsored picks, no fluff.
+      </p>
+    </div>
+  </div>
+
+  {/* Category nav — like a department directory */}
+  <nav class="bg-paper border-b-2 border-ink">
+    <div class="max-w-6xl mx-auto px-4">
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 py-3 text-sm font-mono uppercase tracking-wider">
+        {CATEGORIES.map((cat) => (
+          <li>
+            <a href={`/${cat}/`} class="hover:text-g-lime-dark hover:underline underline-offset-4 decoration-2">
+              {CATEGORY_LABELS[cat]}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+</header>

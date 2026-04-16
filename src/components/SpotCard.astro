@@ -1,0 +1,85 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { CATEGORY_LABELS } from '../content.config';
+
+interface Props {
+  spot: CollectionEntry<'spots'>;
+}
+
+const { spot } = Astro.props;
+const d = spot.data;
+---
+<article class="border-2 border-ink bg-paper">
+  {/* Header strip — like a service notice */}
+  <header class="border-b-2 border-ink bg-ink text-paper px-4 py-2 flex items-center justify-between gap-3 flex-wrap">
+    <div class="flex items-center gap-3">
+      <span class="font-mono text-[10px] uppercase tracking-widest bg-g-lime text-ink px-2 py-0.5">
+        {CATEGORY_LABELS[d.category]}
+      </span>
+      <h3 class="font-bold text-lg sm:text-xl tracking-tight">{d.name}</h3>
+    </div>
+    {d.tags.length > 0 && (
+      <ul class="flex flex-wrap gap-1.5 font-mono text-[10px] uppercase tracking-wider">
+        {d.tags.map((t) => (
+          <li class="border border-paper/40 px-1.5 py-0.5 text-paper/80">{t}</li>
+        ))}
+      </ul>
+    )}
+  </header>
+
+  <div class="p-4 grid gap-4 md:grid-cols-[1fr_auto] md:gap-8">
+    <div class="space-y-4">
+      <p class="text-lg italic leading-snug border-l-4 border-g-lime pl-3">"{d.hook}"</p>
+
+      <div>
+        <p class="font-mono uppercase tracking-widest text-[10px] text-muted mb-1">The Take</p>
+        <div class="prose prose-sm max-w-none text-ink"><slot /></div>
+      </div>
+
+      <div class="grid gap-3 sm:grid-cols-2">
+        <div>
+          <p class="font-mono uppercase tracking-widest text-[10px] text-muted mb-1">Order This</p>
+          <ul class="text-sm font-medium space-y-0.5">
+            {d.order.map((item) => <li>— {item}</li>)}
+          </ul>
+        </div>
+        <div>
+          <p class="font-mono uppercase tracking-widest text-[10px] text-muted mb-1">Best For</p>
+          <p class="text-sm">{d.bestFor}</p>
+        </div>
+      </div>
+
+      <div class="border-t border-ink/20 pt-3">
+        <p class="font-mono uppercase tracking-widest text-[10px] text-muted mb-1">Pro Tip</p>
+        <p class="text-sm">{d.proTip}</p>
+      </div>
+    </div>
+
+    {/* Metadata column — like a civic record */}
+    <aside class="md:w-56 md:border-l-2 md:border-ink md:pl-4 border-t-2 border-ink pt-4 md:pt-0 md:border-t-0">
+      <dl class="font-mono text-xs space-y-2">
+        <div>
+          <dt class="uppercase tracking-widest text-[10px] text-muted">Address</dt>
+          <dd class="mt-0.5">{d.address}</dd>
+        </div>
+        <div>
+          <dt class="uppercase tracking-widest text-[10px] text-muted">Hours</dt>
+          <dd class="mt-0.5 whitespace-pre-line">{d.hours}</dd>
+        </div>
+        {(d.website || d.instagram) && (
+          <div>
+            <dt class="uppercase tracking-widest text-[10px] text-muted">Links</dt>
+            <dd class="mt-0.5 flex flex-col gap-0.5">
+              {d.website && <a class="underline" href={d.website} target="_blank" rel="noopener">Website ↗</a>}
+              {d.instagram && (
+                <a class="underline" href={`https://instagram.com/${d.instagram.replace('@','')}`} target="_blank" rel="noopener">
+                  @{d.instagram.replace('@','')}
+                </a>
+              )}
+            </dd>
+          </div>
+        )}
+      </dl>
+    </aside>
+  </div>
+</article>

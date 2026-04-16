@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { CATEGORIES, CATEGORY_LABELS } from '../content.config';
+
+const spots = await getCollection('spots');
+const countByCategory = Object.fromEntries(
+  CATEGORIES.map((c) => [c, spots.filter((s) => s.data.category === c).length])
+);
+const total = spots.length;
+---
+<Base title="Off the G — Greenpoint Field Guide">
+  {/* Hero — civic notice board energy */}
+  <section class="border-b-2 border-ink">
+    <div class="max-w-6xl mx-auto px-4 py-12 md:py-16 grid gap-8 md:grid-cols-[2fr_1fr] items-end">
+      <div>
+        <p class="font-mono uppercase tracking-widest text-xs text-muted mb-3">
+          Notice to Residents · Vol. 01
+        </p>
+        <h1 class="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+          The spots locals actually go to.
+        </h1>
+        <p class="mt-5 text-lg max-w-2xl text-ink/80">
+          Greenpoint is more than the few places that show up on every "best of Brooklyn" list.
+          This is a working catalog of the dive bars, slice joints, pierogi counters, and
+          neighborhood institutions that make this place what it is — written by people who actually live here.
+        </p>
+      </div>
+      <aside class="border-2 border-ink p-4 font-mono text-xs">
+        <p class="uppercase tracking-widest text-[10px] text-muted mb-2">Field Report</p>
+        <dl class="space-y-1">
+          <div class="flex justify-between border-b border-ink/20 py-1">
+            <dt>Total entries</dt><dd class="font-bold">{total}</dd>
+          </div>
+          <div class="flex justify-between border-b border-ink/20 py-1">
+            <dt>Categories</dt><dd class="font-bold">{CATEGORIES.length}</dd>
+          </div>
+          <div class="flex justify-between border-b border-ink/20 py-1">
+            <dt>Last updated</dt><dd class="font-bold">Apr 2026</dd>
+          </div>
+          <div class="flex justify-between py-1">
+            <dt>Compiled by</dt><dd class="font-bold">Locals</dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  {/* Category directory — like a department index */}
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <div class="flex items-baseline justify-between border-b-2 border-ink pb-2 mb-6">
+      <h2 class="text-2xl font-bold uppercase tracking-tight">Directory</h2>
+      <span class="font-mono text-xs uppercase tracking-widest text-muted">Browse by category</span>
+    </div>
+    <ul class="grid gap-px bg-ink border-2 border-ink sm:grid-cols-2 lg:grid-cols-4">
+      {CATEGORIES.map((cat) => (
+        <li class="bg-paper">
+          <a href={`/${cat}/`} class="block p-5 hover:bg-g-lime transition-colors group h-full">
+            <p class="font-mono uppercase tracking-widest text-[10px] text-muted group-hover:text-ink mb-2">
+              §{(CATEGORIES.indexOf(cat) + 1).toString().padStart(2, '0')}
+            </p>
+            <p class="font-bold text-lg leading-tight">{CATEGORY_LABELS[cat]}</p>
+            <p class="font-mono text-xs text-muted group-hover:text-ink mt-3">
+              {countByCategory[cat]} {countByCategory[cat] === 1 ? 'entry' : 'entries'} →
+            </p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  {/* Sample of latest spots */}
+  {spots.length > 0 && (
+    <section class="max-w-6xl mx-auto px-4 pb-16">
+      <div class="flex items-baseline justify-between border-b-2 border-ink pb-2 mb-6">
+        <h2 class="text-2xl font-bold uppercase tracking-tight">Recently Logged</h2>
+        <span class="font-mono text-xs uppercase tracking-widest text-muted">Latest field entries</span>
+      </div>
+      <ul class="grid gap-4">
+        {spots.slice(0, 3).map((spot) => (
+          <li>
+            <a href={`/${spot.data.category}/#${spot.id}`} class="block border-2 border-ink p-4 hover:bg-cream transition-colors">
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="font-mono text-[10px] uppercase tracking-widest bg-g-lime text-ink px-2 py-0.5">
+                  {CATEGORY_LABELS[spot.data.category]}
+                </span>
+                <h3 class="font-bold text-lg">{spot.data.name}</h3>
+              </div>
+              <p class="mt-2 italic text-ink/80">"{spot.data.hook}"</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>

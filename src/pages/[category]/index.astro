@@ -1,0 +1,53 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import SpotCard from '../../components/SpotCard.astro';
+import { CATEGORIES, CATEGORY_LABELS } from '../../content.config';
+
+export async function getStaticPaths() {
+  return CATEGORIES.map((category) => ({ params: { category } }));
+}
+
+const { category } = Astro.params;
+const label = CATEGORY_LABELS[category as keyof typeof CATEGORY_LABELS];
+
+const all = await getCollection('spots');
+const spots = all
+  .filter((s) => s.data.category === category)
+  .sort((a, b) => a.data.rank - b.data.rank);
+
+// Render each spot's markdown body
+const rendered = await Promise.all(
+  spots.map(async (spot) => ({ spot, Content: (await render(spot)).Content }))
+);
+---
+<Base title={`${label} — Off the G`}>
+  <section class="border-b-2 border-ink">
+    <div class="max-w-6xl mx-auto px-4 py-10">
+      <p class="font-mono uppercase tracking-widest text-xs text-muted mb-2">
+        §{(CATEGORIES.indexOf(category as any) + 1).toString().padStart(2, '0')} · Category
+      </p>
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight">{label}</h1>
+      <p class="mt-3 font-mono text-xs uppercase tracking-widest text-muted">
+        {spots.length} {spots.length === 1 ? 'entry' : 'entries'} on file
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 py-10 space-y-6">
+    {rendered.length === 0 ? (
+      <div class="border-2 border-dashed border-ink p-8 text-center font-mono text-sm">
+        <p class="uppercase tracking-widest text-xs text-muted mb-2">No entries logged</p>
+        <p>Submit a tip to <a class="underline" href="mailto:tips@offtheg.nyc">tips@offtheg.nyc</a></p>
+      </div>
+    ) : (
+      rendered.map(({ spot, Content }) => (
+        <div id={spot.id}>
+          <SpotCard spot={spot}>
+            <Content />
+          </SpotCard>
+        </div>
+      ))
+    )}
+  </section>
+</Base>
