@@ -1,0 +1,128 @@
+---
+import Base from '../layouts/Base.astro';
+import { CATEGORIES, CATEGORY_LABELS } from '../content.config';
+---
+<Base title="404 · G train isn't running — Off the G">
+  {/* Service alert banner — like an MTA disruption notice */}
+  <div class="bg-alert text-paper border-b-4 border-ink">
+    <div class="max-w-4xl mx-auto px-4 py-2 flex items-center gap-3 font-mono text-xs uppercase tracking-widest">
+      <span class="inline-block size-2 bg-paper animate-pulse" style="border-radius:9999px !important"></span>
+      Service Advisory · Issued {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+    </div>
+  </div>
+
+  <section class="max-w-4xl mx-auto px-4 py-10 md:py-16">
+    {/* Stalled G train SVG */}
+    <div class="border-2 border-ink bg-cream p-6 md:p-10">
+      <svg viewBox="0 0 640 220" class="w-full h-auto" role="img" aria-label="Stalled G train">
+        {/* Track */}
+        <line x1="0" y1="200" x2="640" y2="200" stroke="#0A0A0A" stroke-width="3"/>
+        <g stroke="#0A0A0A" stroke-width="2">
+          <line x1="20" y1="200" x2="20" y2="210"/>
+          <line x1="80" y1="200" x2="80" y2="210"/>
+          <line x1="140" y1="200" x2="140" y2="210"/>
+          <line x1="200" y1="200" x2="200" y2="210"/>
+          <line x1="260" y1="200" x2="260" y2="210"/>
+          <line x1="320" y1="200" x2="320" y2="210"/>
+          <line x1="380" y1="200" x2="380" y2="210"/>
+          <line x1="440" y1="200" x2="440" y2="210"/>
+          <line x1="500" y1="200" x2="500" y2="210"/>
+          <line x1="560" y1="200" x2="560" y2="210"/>
+          <line x1="620" y1="200" x2="620" y2="210"/>
+        </g>
+
+        {/* Train car body */}
+        <rect x="40" y="50" width="560" height="140" fill="#F7F7F2" stroke="#0A0A0A" stroke-width="4"/>
+
+        {/* Top stripe */}
+        <rect x="40" y="50" width="560" height="14" fill="#0A0A0A"/>
+
+        {/* Bottom stripe / undercarriage */}
+        <rect x="40" y="180" width="560" height="10" fill="#0A0A0A"/>
+
+        {/* Windows row — left of door */}
+        <rect x="60" y="80" width="55" height="50" fill="#0A0A0A" stroke="#0A0A0A" stroke-width="2"/>
+        <rect x="125" y="80" width="55" height="50" fill="#0A0A0A" stroke="#0A0A0A" stroke-width="2"/>
+
+        {/* Door */}
+        <rect x="195" y="75" width="60" height="100" fill="#F7F7F2" stroke="#0A0A0A" stroke-width="3"/>
+        <line x1="225" y1="75" x2="225" y2="175" stroke="#0A0A0A" stroke-width="2"/>
+
+        {/* Roll sign / destination panel — featuring the G bullet */}
+        <rect x="270" y="80" width="230" height="50" fill="#0A0A0A"/>
+        {/* G bullet on roll sign */}
+        <circle cx="297" cy="105" r="18" fill="#6CBE45"/>
+        <text x="297" y="106" text-anchor="middle" dominant-baseline="central"
+              font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+              font-weight="700" font-size="22" fill="#0A0A0A">G</text>
+        {/* Destination text */}
+        <text x="410" y="106" text-anchor="middle" dominant-baseline="central"
+              font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+              font-weight="700" font-size="15" fill="#F7F7F2"
+              letter-spacing="1.5">NOT IN SERVICE</text>
+
+        {/* Right windows */}
+        <rect x="515" y="80" width="60" height="50" fill="#0A0A0A" stroke="#0A0A0A" stroke-width="2"/>
+
+        {/* Wheels */}
+        <circle cx="120" cy="195" r="14" fill="#0A0A0A"/>
+        <circle cx="120" cy="195" r="6" fill="#F7F7F2"/>
+        <circle cx="220" cy="195" r="14" fill="#0A0A0A"/>
+        <circle cx="220" cy="195" r="6" fill="#F7F7F2"/>
+        <circle cx="420" cy="195" r="14" fill="#0A0A0A"/>
+        <circle cx="420" cy="195" r="6" fill="#F7F7F2"/>
+        <circle cx="520" cy="195" r="14" fill="#0A0A0A"/>
+        <circle cx="520" cy="195" r="6" fill="#F7F7F2"/>
+
+        {/* Service alert lights — red, indicating stopped/out of service */}
+        <circle cx="55" cy="57" r="3" fill="#D9261C"/>
+        <circle cx="585" cy="57" r="3" fill="#D9261C"/>
+
+        {/* Status indicator below */}
+        <text x="320" y="155" text-anchor="middle"
+              font-family="SF Mono, Menlo, Consolas, monospace"
+              font-size="10" fill="#5C5C5C" letter-spacing="2">STATUS: STALLED · CODE 404</text>
+      </svg>
+    </div>
+
+    {/* Notice copy */}
+    <div class="mt-10 max-w-2xl">
+      <p class="font-mono uppercase tracking-widest text-xs text-muted mb-3">
+        §404 · No record on file
+      </p>
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight leading-[1.05]">
+        G train isn't running to this page.
+      </h1>
+      <p class="mt-5 text-lg text-ink/80">
+        There's no record of this destination in our system — either the page moved,
+        the link was wrong, or the spot never existed in the first place.
+      </p>
+    </div>
+
+    {/* Recovery options — like a posted alternate route */}
+    <div class="mt-10 grid gap-4 sm:grid-cols-2">
+      <a href="/" class="border-2 border-ink bg-paper p-5 hover:bg-g-lime transition-colors group">
+        <p class="font-mono uppercase tracking-widest text-xs text-muted group-hover:text-ink mb-1">Suggested route</p>
+        <p class="font-bold text-lg">← Return to the field guide</p>
+      </a>
+      <a href="mailto:tips@offtheg.com" class="border-2 border-ink bg-paper p-5 hover:bg-g-lime transition-colors group">
+        <p class="font-mono uppercase tracking-widest text-xs text-muted group-hover:text-ink mb-1">Or report it</p>
+        <p class="font-bold text-lg">Tell us what's missing →</p>
+      </a>
+    </div>
+
+    {/* Category fallback */}
+    <div class="mt-10 border-t-2 border-ink pt-6">
+      <p class="font-mono uppercase tracking-widest text-xs text-muted mb-3">Or browse by category</p>
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 font-mono uppercase tracking-wider text-sm">
+        {CATEGORIES.map((cat) => (
+          <li>
+            <a href={`/${cat}/`} class="hover:text-g-lime-dark hover:underline underline-offset-4 decoration-2">
+              {CATEGORY_LABELS[cat]}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
